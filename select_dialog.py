@@ -1,5 +1,7 @@
 from designs.select_dialog_design import Ui_greeting_dialog
 
+from main_menu import MainWindow
+
 import cv2
 
 from PySide6 import QtWidgets, QtGui
@@ -8,6 +10,7 @@ from PySide6 import QtWidgets, QtGui
 class StartWindow(QtWidgets.QDialog, Ui_greeting_dialog):
     def __init__(self):
         super().__init__()
+        self.main_window = None
         self.setupUi(self)
 
         self.setWindowIcon(QtGui.QIcon('practice2024/assets/icon.png'))
@@ -20,9 +23,8 @@ class StartWindow(QtWidgets.QDialog, Ui_greeting_dialog):
                                                                                                         "*.png *.jpg)")
 
         if directory[0]:
-            print("good")
-            # запускаем следующее окно
-
+            print(directory)
+            self.open_main_window(directory[0][0])
 
     def make_photo(self):
         # Включаем первую камеру
@@ -37,4 +39,9 @@ class StartWindow(QtWidgets.QDialog, Ui_greeting_dialog):
         # Отключаем камеру
         cap.release()
         # запускаем следующее окно
+
+    def open_main_window(self, file: str):
+        self.main_window = MainWindow(file)
+        self.main_window.show()
+        self.hide()
 
