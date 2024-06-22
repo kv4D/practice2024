@@ -3,12 +3,12 @@ import sys
 
 from PySide6.QtWidgets import QApplication
 
-import select_dialog
+from select_dialog import StartWindow
 
 
 def main():
     app = QApplication(sys.argv)
-    window = select_dialog.StartWindow()
+    window = StartWindow()
     window.show()
     app.exec()
 
