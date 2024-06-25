@@ -13,7 +13,7 @@ class StartWindow(QtWidgets.QDialog, Ui_greeting_dialog):
         self.main_window = None
         self.setupUi(self)
 
-        self.setWindowIcon(QtGui.QIcon('practice2024/assets/icon.png'))
+        self.setWindowIcon(QtGui.QIcon('assets/icon.png'))
 
         self.use_file.clicked.connect(self.browse_files)
         self.create_file.clicked.connect(self.make_photo)
