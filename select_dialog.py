@@ -2,7 +2,7 @@ from designs.select_dialog_design import Ui_greeting_dialog
 
 from main_menu import MainWindow
 
-import cv2, os
+import cv2
 
 from PySide6 import QtWidgets, QtGui
 
