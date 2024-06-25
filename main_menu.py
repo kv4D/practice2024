@@ -1,5 +1,4 @@
-import os.path
-
+import os
 import cv2
 import numpy
 
@@ -15,10 +14,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self, picture)
         self.source_picture = picture
         self.current_picture = picture
+        self.save_path = os.path.abspath('practice2024/user_data')
 
+        # установка иконки окна
         self.setWindowIcon(QtGui.QIcon('practice2024/assets/icon.png'))
 
-        # для выбора с помощью optionbox
+        # для выбора с помощью optionBox
         self.optionBox.currentTextChanged.connect(self.set_photo)
 
         # для работы с опциями верхней панели
@@ -32,33 +33,49 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 QtGui.QPixmap(self.source_picture).scaled(self.picture.width(), self.picture.height())
             )
             self.picture.setScaledContents(True)
+            self.current_picture = self.source_picture
+
         elif self.optionBox.currentText() == 'Красный канал изображения':
             src_file = open(self.source_picture, "rb")
             picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
-            red_pic = cv2.imwrite('red.png', cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 2])
+            red_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 2]
 
-            #self.picture.setPixmap(
-           #     QtGui.QPixmap(red_pic).scaled(self.picture.width(), self.picture.height())
-           # )
+            is_success, red_pic_arr = cv2.imencode(".png", red_pic)
+            red_pic_arr.tofile(self.save_path + r'\red.png', format='png')
+
+            self.picture.setPixmap(
+                QtGui.QPixmap(self.save_path + r'\red.png').scaled(self.picture.width(), self.picture.height())
+            )
             self.picture.setScaledContents(True)
+            self.current_picture = self.save_path + r'\red.png'
+
         elif self.optionBox.currentText() == 'Синий канал изображения':
             src_file = open(self.source_picture, "rb")
             picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
-            blue_pic = cv2.imwrite('blue.png', cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 0])
+            blue_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 0]
+
+            is_success, blue_pic_arr = cv2.imencode(".png", blue_pic)
+            blue_pic_arr.tofile(self.save_path + r'\blue.png', format='png')
 
             self.picture.setPixmap(
-
+                QtGui.QPixmap(self.save_path + r'\blue.png').scaled(self.picture.width(), self.picture.height())
             )
             self.picture.setScaledContents(True)
+            self.current_picture = self.save_path + r'\blue.png'
+
         elif self.optionBox.currentText() == 'Зеленый канал изображения':
             src_file = open(self.source_picture, "rb")
             picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
-            green_pic = cv2.imwrite('green.png', cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 1])
+            green_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 1]
+
+            is_success, green_pic_arr = cv2.imencode(".png", green_pic)
+            green_pic_arr.tofile(self.save_path + r'\green.png', format='png')
 
             self.picture.setPixmap(
-
+                QtGui.QPixmap(self.save_path + r'\green.png').scaled(self.picture.width(), self.picture.height())
             )
             self.picture.setScaledContents(True)
+            self.current_picture = self.save_path + r'\green.png'
 
     def do_smt(self):
         print('да')
@@ -67,16 +84,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         sharp_filter = numpy.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
 
         try:
-            src_file = open(self.source_picture, "rb")
-            picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
+            pic_to_edit = open(self.current_picture, "rb")
+            picture_arr = numpy.frombuffer(pic_to_edit.read(), dtype=numpy.uint8)
             sharpen_picture = cv2.filter2D(cv2.imdecode(picture_arr, cv2.IMREAD_COLOR), ddepth=-1, kernel=sharp_filter)
-            cv2.imwrite('sharpen.png', sharpen_picture)
+
+            is_success, sharpen_picture_arr = cv2.imencode(".png", sharpen_picture)
+            sharpen_picture_arr.tofile(self.save_path + r'\sharpen.png', format='png')
 
             self.picture.setPixmap(
-                QtGui.QPixmap('sharpen.png').scaled(self.picture.width(), self.picture.height())
+                QtGui.QPixmap(self.save_path + r'\sharpen.png').scaled(self.picture.width(), self.picture.height())
             )
             self.picture.setScaledContents(True)
-            self.current_picture = 'sharpen.png'
+            self.current_picture = self.save_path + r'\sharpen.png'
         except Exception:
             print("Возникла ошибка")
 
