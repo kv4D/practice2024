@@ -14,10 +14,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self, picture)
         self.source_picture = picture
         self.current_picture = picture
-        self.save_path = os.path.abspath('practice2024/user_data')
+        self.save_path = os.path.abspath('user_data')
 
         # установка иконки окна
-        self.setWindowIcon(QtGui.QIcon('practice2024/assets/icon.png'))
+        self.setWindowIcon(QtGui.QIcon('assets/icon.png'))
 
         # для выбора с помощью optionBox
         self.optionBox.currentTextChanged.connect(self.set_photo)
