@@ -6,13 +6,17 @@ from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QMainWindow
 
 from degree_dialog import DegreeDialog
+from line_dialog import LineDialog
 
 from designs.main_menu_design import Ui_MainWindow
 
 
+# T проверка на валидную координату
+# T снимок с вебки
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, picture: str):
         super().__init__()
+        self.line_dialog = None
         self.degree_dialog = None
         self.setupUi(self, picture)
         self.source_picture = picture
@@ -27,7 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # для работы с опциями верхней панели
         self.add_sharpness.triggered.connect(self.add_sharpness_to_pic)
-        self.paint_line.triggered.connect(self.do_smt)
+        self.paint_line.triggered.connect(self.open_line_dialog)
         self.change_angle.triggered.connect(self.open_degree_dialog)
 
     def set_photo(self):
@@ -80,9 +84,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.picture.setScaledContents(True)
             self.current_picture = self.save_path + r'\green.png'
 
-    def do_smt(self):
-        print('да')
-
     def add_sharpness_to_pic(self):
         sharp_filter = numpy.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
 
@@ -112,3 +113,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.degree_dialog = DegreeDialog(self)
         self.degree_dialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.degree_dialog.show()
+
+    def open_line_dialog(self):
+        self.line_dialog = LineDialog(self)
+        self.line_dialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
+        self.line_dialog.show()
