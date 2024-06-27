@@ -116,3 +116,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.line_dialog = LineDialog(self)
         self.line_dialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.line_dialog.show()
+

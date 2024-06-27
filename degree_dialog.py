@@ -29,7 +29,7 @@ class DegreeDialog(QDialog, Ui_degree_dialog):
         print(self.degree_slider.value())
 
     def provide_angle(self):
-        degree = self.degree_slider.value()
+        degree = int(self.degree_slider.value())
 
         pic_to_edit = open(self.main_window.current_picture, "rb")
         picture_arr = numpy.frombuffer(pic_to_edit.read(), dtype=numpy.uint8)
@@ -38,7 +38,11 @@ class DegreeDialog(QDialog, Ui_degree_dialog):
         # получение повернутого изображения
         (height, weight) = picture.shape[:2]
         center = (int(weight / 2), int(height / 2))
-        rotation_matrix = cv2.getRotationMatrix2D(center, degree, 0.6)
+
+        if degree in [360, 180]:
+            rotation_matrix = cv2.getRotationMatrix2D(center, degree, 1)
+        else:
+            rotation_matrix = cv2.getRotationMatrix2D(center, degree, 0.6)
         rotated_picture = cv2.warpAffine(picture, rotation_matrix, (weight, height))
 
         # сохранение изображения
