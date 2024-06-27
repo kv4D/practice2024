@@ -16,14 +16,42 @@ class LineDialog(Ui_line_dialog, QDialog):
         # установка иконки окна
         self.setWindowIcon(QtGui.QIcon('assets/icon.png'))
 
-        # для валидации данных
-        self.thickness.textChanged.connect(self.validate_data)
+        # для валидации данных во время ввода пользователем
+        self.thickness.textChanged.connect(self.validate_thickness)
 
         # для работы с кнопками
         self.buttons.accepted.connect(self.draw_line)
         self.buttons.rejected.connect(self.cancel_operation)
 
-    def validate_data(self):
+    def validate_start_x(self):
+        cord = self.start_point_x.toPlainText()
+        if cord[0] == '-':
+            cord = cord.replace('-', '1', 1)
+        if not (cord.isnumeric()):
+            self.thickness.setPlainText("0")
+
+    def validate_start_y(self):
+        cord = self.start_point_y.toPlainText()
+        if cord[0] == '-':
+            cord = cord.replace('-', '1', 1)
+        if not (cord.isnumeric()):
+            self.thickness.setPlainText("0")
+
+    def validate_end_x(self):
+        cord = self.end_point_x.toPlainText()
+        if cord[0] == '-':
+            cord = cord.replace('-', '1', 1)
+        if not (cord.isnumeric()):
+            self.thickness.setPlainText("0")
+
+    def validate_end_y(self):
+        cord = self.end_point_y.toPlainText()
+        if cord[0] == '-':
+            cord = cord.replace('-', '1', 1)
+        if not (cord.isnumeric()):
+            self.thickness.setPlainText("0")
+
+    def validate_thickness(self):
         if not (self.thickness.toPlainText().isnumeric()):
             self.thickness.setPlainText("1")
 

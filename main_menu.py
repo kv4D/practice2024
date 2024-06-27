@@ -11,8 +11,6 @@ from line_dialog import LineDialog
 from designs.main_menu_design import Ui_MainWindow
 
 
-# T проверка на валидную координату
-# T снимок с вебки
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, picture: str):
         super().__init__()
@@ -118,3 +116,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.line_dialog = LineDialog(self)
         self.line_dialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.line_dialog.show()
+
