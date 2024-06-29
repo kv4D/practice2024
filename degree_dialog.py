@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QDialog
 
 class DegreeDialog(QDialog, Ui_degree_dialog):
     def __init__(self, main_window):
+        # установка атрибутов окна
         super().__init__()
         self.setupUi(self)
         self.main_window = main_window
@@ -25,10 +26,11 @@ class DegreeDialog(QDialog, Ui_degree_dialog):
         self.buttons.rejected.connect(self.cancel_operation)
 
     def update_degree_counter(self):
+        """Обновление показателя угла наклона."""
         self.degree_counter.setText(str(self.degree_slider.value()))
-        print(self.degree_slider.value())
 
     def provide_angle(self):
+        """Создает изображение с заданным углом поворота и показывает его."""
         degree = int(self.degree_slider.value())
 
         pic_to_edit = open(self.main_window.current_picture, "rb")

@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy
 
-from PySide6 import QtGui, QtCore
+from PySide6 import QtGui, QtCore, QtWidgets
 from PySide6.QtWidgets import QMainWindow
 
 from degree_dialog import DegreeDialog
@@ -13,6 +13,7 @@ from designs.main_menu_design import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, picture: str):
+        # установка атрибутов окна
         super().__init__()
         self.line_dialog = None
         self.degree_dialog = None
@@ -31,8 +32,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.add_sharpness.triggered.connect(self.add_sharpness_to_pic)
         self.paint_line.triggered.connect(self.open_line_dialog)
         self.change_angle.triggered.connect(self.open_degree_dialog)
+        self.change_picture.triggered.connect(self.change_original_pic)
 
     def set_photo(self):
+        """Меняет фотографию при использовании селектора изображений."""
         if self.optionBox.currentText() == 'Оригинальное изображение':
             self.picture.setPixmap(
                 QtGui.QPixmap(self.source_picture).scaled(self.picture.width(), self.picture.height())
@@ -83,6 +86,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.current_picture = self.save_path + r'\green.png'
 
     def add_sharpness_to_pic(self):
+        """Повышение резкости текущего изображения и его установка."""
         sharp_filter = numpy.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
 
         try:
@@ -101,19 +105,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception:
             print("Возникла ошибка")
 
-    def paint_line_on_pic(self):
-        pass
-
-    def change_angle_of_pic(self):
-        pass
-
     def open_degree_dialog(self):
+        """Открытие диалогового окна для задания параметров поворота изображения."""
         self.degree_dialog = DegreeDialog(self)
         self.degree_dialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.degree_dialog.show()
 
     def open_line_dialog(self):
+        """Открытие диалогового окна для задания параметров рисования линии."""
         self.line_dialog = LineDialog(self)
         self.line_dialog.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.line_dialog.show()
 
+    def change_original_pic(self):
+        """Замена изображения."""
+        directory = QtWidgets.QFileDialog.getOpenFileNames(self, "Выберите .png или .jpeg файл", filter="Изображение ("
+                                                                                                        "*.png *.jpg)")
+        if directory[0]:
+            directory = directory[0][0]
+            self.source_picture = directory
+            self.current_picture = directory
+            self.picture.setPixmap(
+                QtGui.QPixmap(self.source_picture).scaled(self.picture.width(), self.picture.height())
+            )

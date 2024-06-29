@@ -1,6 +1,5 @@
 import sys
 
-
 from PySide6.QtWidgets import QApplication
 
 from select_dialog import StartWindow
