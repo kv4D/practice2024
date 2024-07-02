@@ -9,6 +9,7 @@ from PySide6 import QtGui
 
 class LineDialog(Ui_line_dialog, QDialog):
     def __init__(self, main_window):
+        # установка атрибутов окна
         super().__init__()
         self.setupUi(self)
         self.main_window = main_window
@@ -56,6 +57,7 @@ class LineDialog(Ui_line_dialog, QDialog):
             self.thickness.setPlainText("1")
 
     def draw_line(self):
+        """Создает изображение с нарисованной линией и показывает его."""
         pic_to_edit = open(self.main_window.current_picture, "rb")
         picture_arr = numpy.frombuffer(pic_to_edit.read(), dtype=numpy.uint8)
         picture = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)

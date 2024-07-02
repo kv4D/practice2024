@@ -63,9 +63,12 @@ class Ui_MainWindow(object):
         self.change_angle.setObjectName("change_angle")
         self.paint_line = QtGui.QAction(MainWindow)
         self.paint_line.setObjectName("paint_line")
+        self.change_picture = QtGui.QAction(MainWindow)
+        self.change_picture.setObjectName("change_picture")
         self.menu.addAction(self.add_sharpness)
         self.menu.addAction(self.change_angle)
         self.menu.addAction(self.paint_line)
+        self.menu.addAction(self.change_picture)
         self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -82,3 +85,4 @@ class Ui_MainWindow(object):
         self.add_sharpness.setText(_translate("MainWindow", "Повысить резкость"))
         self.change_angle.setText(_translate("MainWindow", "Повернуть изображение на введенный угол"))
         self.paint_line.setText(_translate("MainWindow", "Нарисовать линию"))
+        self.change_picture.setText(_translate("MainWindow", "Сменить изображение"))
