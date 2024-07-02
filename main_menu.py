@@ -46,7 +46,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif self.optionBox.currentText() == 'Красный канал изображения':
             src_file = open(self.source_picture, "rb")
             picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
-            red_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 2]
+            red_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)
+            red_pic[:, :, 0] = 0
+            red_pic[:, :, 1] = 0
 
             is_success, red_pic_arr = cv2.imencode(".png", red_pic)
             red_pic_arr.tofile(self.save_path + r'\red.png', format='png')
@@ -60,7 +62,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif self.optionBox.currentText() == 'Синий канал изображения':
             src_file = open(self.source_picture, "rb")
             picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
-            blue_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 0]
+            blue_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)
+            blue_pic[:, :, 1] = 0
+            blue_pic[:, :, 2] = 0
 
             is_success, blue_pic_arr = cv2.imencode(".png", blue_pic)
             blue_pic_arr.tofile(self.save_path + r'\blue.png', format='png')
@@ -74,7 +78,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif self.optionBox.currentText() == 'Зеленый канал изображения':
             src_file = open(self.source_picture, "rb")
             picture_arr = numpy.frombuffer(src_file.read(), dtype=numpy.uint8)
-            green_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)[:, :, 1]
+            green_pic = cv2.imdecode(picture_arr, cv2.IMREAD_COLOR)
+            green_pic[:, :, 0] = 0
+            green_pic[:, :, 2] = 0
 
             is_success, green_pic_arr = cv2.imencode(".png", green_pic)
             green_pic_arr.tofile(self.save_path + r'\green.png', format='png')
